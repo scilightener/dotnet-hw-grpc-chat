@@ -1,0 +1,29 @@
+﻿services:
+  chatapi:
+    image: chatapi
+    build:
+      context: .
+      dockerfile: dotnet-hw-grpc-chat/ChatAPI/Dockerfile
+    hostname: chatapi
+    ports:
+      - "5001:80"
+    
+  envoy:
+    image: envoyproxy/envoy
+    build:
+      context: grpc-chat/envoy
+      dockerfile: Dockerfile
+    depends_on:
+      - chatapi
+    ports:
+      - "8080:8080"
+  
+  chatclient:
+    image: chatclient
+    build:
+      context: grpc-chat
+      dockerfile: Dockerfile
+    depends_on:
+      - envoy
+    ports:
+      - "3000:3000"

@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ChatAPI.Services;
 
-public class JwtService : Jwt.JwtService.JwtServiceBase
+public class JwtGrpcService : Jwt.JwtService.JwtServiceBase
 {
     public override Task<Response> GetJwt(Request request, ServerCallContext context)
     {
@@ -18,13 +18,13 @@ public class JwtService : Jwt.JwtService.JwtServiceBase
     {
         var now = DateTime.UtcNow;
         var jwt = new JwtSecurityToken(
-            issuer: JwtConstants.Issuer,
-            audience: JwtConstants.Audience,
+            issuer: Constants.Jwt.Issuer,
+            audience: Constants.Jwt.Audience,
             notBefore: now,
             claims: GetIdentity(username).Claims,
             expires: now + TimeSpan.FromMinutes(10),
             signingCredentials: new SigningCredentials(
-                new SymmetricSecurityKey(JwtConstants.Key),
+                new SymmetricSecurityKey(Constants.Jwt.Key),
                 SecurityAlgorithms.HmacSha256));
     
         return new JwtSecurityTokenHandler().WriteToken(jwt);

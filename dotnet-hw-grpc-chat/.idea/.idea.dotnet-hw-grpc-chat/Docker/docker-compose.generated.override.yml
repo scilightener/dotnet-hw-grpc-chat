@@ -1,0 +1,24 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  chatapi:
+    build:
+      context: "C:\\Users\\scilightener\\itis\\3c2s\\dotnet\\hw-grpc-chat"
+      dockerfile: "dotnet-hw-grpc-chat/ChatAPI/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net7.0/ChatAPI.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      NUGET_PACKAGES: "C:\\Users\\scilightener\\.nuget\\packages"
+      NUGET_FALLBACK_PACKAGES: "C:\\Users\\scilightener\\.nuget\\packages"
+    image: "chatapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\scilightener\\.nuget\\packages:/root/.nuget/fallbackpackages"
+    - "C:\\Users\\scilightener\\itis\\3c2s\\dotnet\\hw-grpc-chat\\dotnet-hw-grpc-chat\\\
+      ChatAPI:/app:rw"
+    - "C:\\Users\\scilightener\\itis\\3c2s\\dotnet\\hw-grpc-chat\\dotnet-hw-grpc-chat:/src:rw"
+    working_dir: "/app"

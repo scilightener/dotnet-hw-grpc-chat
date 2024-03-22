@@ -4,11 +4,24 @@ namespace ChatAPI.Services;
 
 public class MessageSenderService
 {
-    private readonly List<IServerStreamWriter<ChatMessageResponse>> _streams = new();
+    private readonly HashSet<IServerStreamWriter<ChatMessageResponse>> _streams = new();
+    private readonly object _locker = new();
 
-    public void Subscribe(IServerStreamWriter<ChatMessageResponse> stream) => _streams.Add(stream);
-    
-    public void Unsubscribe(IServerStreamWriter<ChatMessageResponse> stream) => _streams.Remove(stream);
+    public void Subscribe(IServerStreamWriter<ChatMessageResponse> stream)
+    {
+        lock (_locker)
+        {
+            _streams.Add(stream);
+        }
+    }
+
+    public void Unsubscribe(IServerStreamWriter<ChatMessageResponse> stream)
+    {
+        lock (_locker)
+        {
+            _streams.Remove(stream);
+        }
+    }
 
     public async Task SendMessageAsync(ChatMessageResponse message)
     {
