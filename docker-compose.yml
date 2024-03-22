@@ -2,8 +2,8 @@
   chatapi:
     image: chatapi
     build:
-      context: .
-      dockerfile: dotnet-hw-grpc-chat/ChatAPI/Dockerfile
+      context: dotnet-hw-grpc-chat
+      dockerfile: ChatAPI/Dockerfile
     hostname: chatapi
     ports:
       - "5001:80"
